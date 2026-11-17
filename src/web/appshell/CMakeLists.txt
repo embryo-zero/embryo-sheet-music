@@ -1,0 +1,50 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# MuseScore-Studio-CLA-applies
+#
+# MuseScore Studio
+# Music Composition & Notation
+#
+# Copyright (C) 2021 MuseScore Limited and others
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 3 as
+# published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+muse_create_module(appshell)
+
+target_sources(appshell PRIVATE
+    appshellmodule.cpp
+    appshellmodule.h
+    internal/startupscenario.cpp
+    internal/startupscenario.h
+    internal/appshortcutsscopes.cpp
+    internal/appshortcutsscopes.h
+)
+
+# Shared with the desktop appshell
+set(APPSHELL_SRC_DIR ${PROJECT_SOURCE_DIR}/src/appshell)
+target_sources(appshell PRIVATE
+    ${APPSHELL_SRC_DIR}/iappshellconfiguration.h
+    ${APPSHELL_SRC_DIR}/appshelltypes.h
+    ${APPSHELL_SRC_DIR}/internal/appshellconfiguration.cpp
+    ${APPSHELL_SRC_DIR}/internal/appshellconfiguration.h
+    ${APPSHELL_SRC_DIR}/internal/istartupscenario.h
+)
+target_include_directories(appshell PRIVATE ${APPSHELL_SRC_DIR})
+
+target_link_libraries(appshell PRIVATE
+    muse::ui
+    muse::uicomponents
+)
+
+if (MUE_BUILD_APPSHELL_QML)
+    add_subdirectory(qml/MuseScore/AppShell)
+endif()

@@ -1,0 +1,68 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-only
+ * MuseScore-Studio-CLA-applies
+ *
+ * MuseScore Studio
+ * Music Composition & Notation
+ *
+ * Copyright (C) 2021 MuseScore Limited and others
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+#pragma once
+
+#include <qqmlintegration.h>
+
+#include <QObject>
+#include <QVariantMap>
+
+#include "ui/view/iconcodes.h"
+
+namespace mu::preferences {
+class PreferencePageItem : public QObject
+{
+    Q_OBJECT
+    QML_ELEMENT
+
+    Q_PROPERTY(QString id READ id NOTIFY idChanged)
+    Q_PROPERTY(QString title READ title NOTIFY titleChanged)
+    Q_PROPERTY(int icon READ icon NOTIFY iconChanged)
+    Q_PROPERTY(QString path READ path NOTIFY pathChanged)
+
+public:
+    explicit PreferencePageItem(QObject* parent = nullptr);
+
+    QString id() const;
+    QString title() const;
+    int icon() const;
+    QString path() const;
+
+public slots:
+    void setTitle(QString title);
+    void setId(QString id);
+    void setIcon(muse::ui::IconCode::Code icon);
+    void setPath(QString path);
+
+signals:
+    void idChanged(QString id);
+    void titleChanged(QString title);
+    void iconChanged(int icon);
+    void pathChanged(QString path);
+
+private:
+    QString m_title;
+    QString m_id;
+    muse::ui::IconCode::Code m_icon = muse::ui::IconCode::Code::NONE;
+    QString m_path;
+};
+}
